@@ -1,0 +1,17 @@
+# ClusterIP: 클러스터 내부에서만 접근 가능 (외부 노출 없음)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fastapi-pg.postgresName" . }}
+  labels:
+    {{- include "fastapi-pg.labels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres
+spec:
+  type: ClusterIP
+  ports:
+    - name: postgres
+      port: {{ .Values.postgres.service.port }}
+      targetPort: postgres
+  selector:
+    {{- include "fastapi-pg.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: postgres

@@ -1,0 +1,36 @@
+# ── FastAPI ─────────────────────────────────────────
+api:
+  replicaCount: 1
+  image:
+    repository: fastapi-app      # docker build -t fastapi-app:0.1.0 로 만든 이미지
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent     # minikube에 load한 로컬 이미지를 쓰기 위해 필요
+  containerPort: 8000
+  service:
+    port: 80                     # ClusterIP (외부 공개는 Ingress가 담당)
+
+# ── PostgreSQL ──────────────────────────────────────
+postgres:
+  image:
+    repository: postgres
+    tag: "16-alpine"
+    pullPolicy: IfNotPresent
+  auth:
+    username: app
+    password: change-me          # 연습용. 실무에선 values에 비밀번호를 두지 않음
+    database: appdb
+  storage:
+    size: 1Gi
+    storageClass: ""             # 비우면 클러스터 기본값 (minikube: standard)
+  service:
+    port: 5432                   # ClusterIP → 클러스터 밖에서는 접근 불가
+
+# ── 외부 입구 ───────────────────────────────────────
+ingress:
+  enabled: true
+  className: nginx               # minikube addons enable ingress
+  host: ""                       # 비우면 모든 호스트로 받음
+
+# ── postgres에는 FastAPI Pod만 접근 허용 ─────────────
+networkPolicy:
+  enabled: true                  # minikube start --cni=calico 여야 실제로 적용됨

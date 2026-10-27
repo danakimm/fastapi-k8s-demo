@@ -1,0 +1,6 @@
+apiVersion: v2
+name: fastapi-pg
+description: FastAPI + PostgreSQL (postgres는 클러스터 내부 전용)
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

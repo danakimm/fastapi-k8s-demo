@@ -1,0 +1,25 @@
+{{- if .Values.networkPolicy.enabled }}
+# postgres Pod로 들어오는 트래픽은 api Pod의 5432 접속만 허용, 나머지는 전부 차단
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "fastapi-pg.postgresName" . }}
+  labels:
+    {{- include "fastapi-pg.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "fastapi-pg.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: postgres
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              {{- include "fastapi-pg.selectorLabels" . | nindent 14 }}
+              app.kubernetes.io/component: api
+      ports:
+        - protocol: TCP
+          port: 5432
+{{- end }}

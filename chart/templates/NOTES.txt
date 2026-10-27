@@ -1,0 +1,6 @@
+설치 완료: {{ .Release.Name }}
+
+  Pod 상태 확인:   kubectl get pods -l app.kubernetes.io/instance={{ .Release.Name }}
+  FastAPI 접속:    (Linux)       curl http://$(minikube ip)/health
+                   (Mac/Windows) 다른 터미널에서 'minikube tunnel' 실행 후 curl http://127.0.0.1/health
+  postgres 주소:   {{ include "fastapi-pg.postgresName" . }}:{{ .Values.postgres.service.port }} (클러스터 내부 전용)

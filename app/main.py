@@ -1,5 +1,5 @@
+import asyncio
 import os
-import time
 from contextlib import asynccontextmanager
 
 import psycopg
@@ -10,7 +10,7 @@ from pydantic import BaseModel
 def get_conn():
     # DB 접속 정보는 Helm 차트가 환경변수로 넣어 줌 (Secret에서 가져옴)
     return psycopg.connect(
-        host=os.environ["DB_HOST"],          # = postgres Service 이름 (내부 DNS)
+        host=os.environ["DB_HOST"],  # = postgres Service 이름 (내부 DNS)
         port=os.environ.get("DB_PORT", "5432"),
         dbname=os.environ["DB_NAME"],
         user=os.environ["DB_USER"],
@@ -30,9 +30,9 @@ async def lifespan(app: FastAPI):
                 )
             print("DB ready")
             break
-        except Exception as e:
-            print(f"DB not ready yet ({attempt + 1}/30): {e}")
-            time.sleep(2)
+        except psycopg.Error as error:
+            print(f"DB not ready yet ({attempt + 1}/30): {error}")
+            await asyncio.sleep(2)
     yield
 
 

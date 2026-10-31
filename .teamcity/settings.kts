@@ -80,11 +80,12 @@ object Build : BuildType({
 object Deploy : BuildType({
     name = "Deploy"
     type = BuildTypeSettings.Type.DEPLOYMENT
-    buildNumberPattern = Build.depParamRefs["imageTag"]
+    buildNumberPattern = "%dep.FastapiK8sDemo_Build.imageTag%"
 
     params {
         param("env.DOCKER_IMAGE", "fastapi-k8s-demo")
-        param("env.IMAGE_TAG", Build.depParamRefs["imageTag"])
+        param("env.IMAGE_REGISTRY", "100.100.93.93:5000")
+        param("env.IMAGE_TAG", "%dep.FastapiK8sDemo_Build.imageTag%")
         param("env.KUBE_API_URL", "https://100.70.246.32:6443")
         param("env.KUBE_NAMESPACE", "fastapi-demo")
         password("env.KUBE_TOKEN", "credentialsJSON:07336fcd-c617-4d90-908b-f579a7312ece")

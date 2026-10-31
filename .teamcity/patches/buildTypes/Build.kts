@@ -17,6 +17,9 @@ changeBuildType(RelativeId("Build")) {
         add {
             param("env.KUBE_API_URL", "https://100.70.246.32:6443")
         }
+        add {
+            param("env.KUBE_NAMESPACE", "fastapi-demo")
+        }
     }
 
     features {

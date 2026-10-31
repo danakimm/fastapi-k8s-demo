@@ -12,16 +12,19 @@ accordingly, and delete the patch script.
 changeBuildType(RelativeId("Build")) {
     params {
         add {
-            param("env.DOCKER_IMAGE", "fastapi-k8s-demo")
-        }
-        add {
-            password("env.KUBE_CA_B64", "credentialsJSON:0d0b7d3a-bb55-46cc-b679-55af3e6c6a65")
-        }
-        add {
             param("env.KUBE_API_URL", "https://100.70.246.32:6443")
         }
         add {
             param("env.KUBE_NAMESPACE", "fastapi-demo")
+        }
+        add {
+            password("env.KUBE_TOKEN", "credentialsJSON:07336fcd-c617-4d90-908b-f579a7312ece")
+        }
+        add {
+            param("env.DOCKER_IMAGE", "fastapi-k8s-demo")
+        }
+        add {
+            password("env.KUBE_CA_B64", "credentialsJSON:0d0b7d3a-bb55-46cc-b679-55af3e6c6a65")
         }
     }
 

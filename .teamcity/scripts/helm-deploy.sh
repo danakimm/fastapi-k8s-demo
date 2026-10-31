@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-: "${NEXUS_REGISTRY:?NEXUS_REGISTRY가 필요합니다}"
+: "${IMAGE_REGISTRY:?IMAGE_REGISTRY가 필요합니다}"
 : "${DOCKER_IMAGE:?DOCKER_IMAGE가 필요합니다}"
 : "${IMAGE_TAG:?IMAGE_TAG가 필요합니다}"
 : "${KUBE_API_URL:?KUBE_API_URL이 필요합니다}"
@@ -10,7 +10,7 @@ set -euo pipefail
 : "${KUBE_TOKEN:?KUBE_TOKEN이 필요합니다}"
 
 HELM_RELEASE="${HELM_RELEASE:-fastapi-pg}"
-IMAGE_REPOSITORY="${NEXUS_REGISTRY}/${DOCKER_IMAGE}"
+IMAGE_REPOSITORY="${IMAGE_REGISTRY}/${DOCKER_IMAGE}"
 TEMP_DIR="$(mktemp -d)"
 PORT_FORWARD_PID=""
 

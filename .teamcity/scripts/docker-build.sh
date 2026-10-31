@@ -8,6 +8,7 @@ set -euo pipefail
 IMAGE="${NEXUS_REGISTRY}/${DOCKER_IMAGE}"
 
 docker build \
+  --platform linux/amd64 \
   --pull \
   --label "org.opencontainers.image.revision=${BUILD_VCS_NUMBER:-unknown}" \
   --tag "${IMAGE}:${BUILD_NUMBER}" \

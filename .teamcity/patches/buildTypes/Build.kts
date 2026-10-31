@@ -14,6 +14,9 @@ changeBuildType(RelativeId("Build")) {
         add {
             param("env.DOCKER_IMAGE", "fastapi-k8s-demo")
         }
+        add {
+            param("env.KUBE_API_URL", "https://100.70.246.32:6443")
+        }
     }
 
     features {
